@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .block{
+            display: block;
+        }
+        .hidden{
+            display: none;
+        }
+        #emoji{
+            position: relative;
+        }
+        #ebox{
+            width: 290px;
+            height: 220px;
+            position: absolute;
+            background: #fff;
+            border:1px solid #eeeeee;
+            left: 380px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="login">
+    <input type="text" id="txt2">
+    <input type="button" id="btn2" value="login">
+</div>
+<div class="hidden" id="sendpage">
+    <input type="text" id="txt">
+    <input type="color" id="setColor">
+    <input type="file" id="selFile">
+    <input type="button" id="emoji" value="😃">
+    <div id="ebox">
+
+    </div>
+    <input type="button" id="btn" value="send">
+    <input type="button" id="clear" value="clear">
+    <div id="num"></div>
+    <div id="box"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var i = io.connect("http://localhost:3000"),
+         btn = document.getElementById("btn"),
+         btn2 = document.getElementById("btn2"),
+         box = document.getElementById("box"),
+         txt = document.getElementById("txt"),
+         txt2 = document.getElementById("txt2"),
+         num = document.getElementById("num"),
+         login = document.getElementById("login"),
+         clear = document.getElementById("clear"),
+         emoji = document.getElementById("emoji"),
+         ebox = document.getElementById("ebox"),
+         selFile = document.getElementById("selFile"),
+         sendPage = document.getElementById("sendpage"),
+         setColor = document.getElementById("setColor");
+
+
+    emoji.onclick = function () {
+        ebox.style.display = "block";
+        alertPic();
+    };
+
+    clear.onclick = function () {
+        box.innerHTML = "";
+    };
+
+    btn.onclick = function () {
+        ebox.style.display = "none";
+        i.emit("msg","<span style='color: "+setColor.value+"'>"+txt.value+"</span>");
+    };
+
+    btn2.onclick = function () {
+        if (txt2.value != ""){
+            i.emit("login",txt2.value);
+        }else {
+            alert("用户名不能为空");
+        }
+    };
+
+    selFile.onchange = function () {
+        var filecount = this.files.length;
+        if (filecount > 0){
+            var fread = new FileReader();
+            fread.readAsDataURL(this.files[0]);//base 64
+            fread.onload = function () {
+                i.emit("filesrc",this.result);
+            };
+        }
+    };
+
+    txt.onkeyup = function () {
+        ebox.style.display = "none";
+    };
+
+    i.on("filesrcRes",function (user,data,time) {
+        var imgn = document.createElement("img");
+        imgn.src = data;
+        box.innerHTML += "<br/>"+user+"("+time+"):";
+        box.appendChild(imgn);
+    });
+
+    i.on("loginon",function () {
+        sendPage.className = "block";
+        login.className = "hidden";
+    });
+
+    i.on("sys",function (data) {
+        num.innerHTML = "在线人数："+data;
+    });
+
+    i.on("res",function (data) {
+
+        var reg = /(\[emoji\s+)(\d+)(\])/;
+
+        while (reg.exec(data)){
+            data = data.replace(reg, "<img src='./CustomFace/" + (RegExp.$2)++ + ".gif'>");
+        }
+
+        box.innerHTML += data+"<br/>";
+        txt.value = "";
+    });
+
+    function alertPic() {
+        var str = "";
+        for (var i = 1; i <= 96; i++ ){
+            str+="<img src='./CustomFace/"+i+".gif'>"
+        }
+        ebox.innerHTML = str;
+
+        var imgs = ebox.getElementsByTagName("img");
+
+        for (var x = 0; x < imgs.length; x++ ){
+            imgs[x].index = x;
+            imgs[x].onclick = function () {
+                txt.value += "[emoji "+this.index+"]";
+                txt.focus();
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

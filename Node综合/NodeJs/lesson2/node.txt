@@ -1,0 +1,46 @@
+1、模块必须通过 module.exports 导出对外的变量或接口
+如：
+main.js:  var re = require("./one.js");
+re();
+one.js:   module.exports=function(){
+    console.log("huanhuan!");
+}
+在cmd.exe里面执行命令：node main.js,即可输出huanhuan！
+//注意：
+module可省略
+同级用./表示
+2、查询ip：
+ipconfig：ipv4即为域址
+
+2）window+r:打开命令窗口：
+输入mstsc：远程连接
+3、CommonJS 规范是为了解决 JavaScript 的作用域问题而定义的模块形式，
+    可以使每个模块它自身的命名空间中执行。该规范的主要内容是，
+  模块必须通过 module.exports 导出对外的变量或接口，
+  通过 require() 来导入其他模块的输出到当前模块作用域中。
+
+4、Node.js模块系统：
+模块是Node.js 应用程序的基本组成部分，文件和模块是一一对应的。换言之，一个 Node.js 文件就是一个模块，
+这个文件可能是JavaScript 代码、JSON 或者编译过的C/C++ 扩展。
+Node.js的模块分为两类，一类为原生（核心）模块，一类为文件模块。
+Node.js中模块可以通过文件路径或名字获取模块的引用。模块的引用会映射到一个js文件路径，除非它是一个Node内置模块。
+
+require的作用：引入模块
+exports的作用：向外导出方法
+
+
+5、淘宝镜像下载：国内访问不到国外的网站，通过VPN翻墙：
+先下载包，再访问：registry=http://registry.npm.taobao.org/
+6、npm：随同NodeJS一起安装的包管理工具，能解决NodeJS代码部署上的很多问题。
+
+  npm使用场景:
+  允许用户从NPM服务器下载别人编写的第三方包到本地使用。
+  允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。
+  允许用户将自己编写的包或命令行程序上传到NPM服务器供别人使用。
+  由于新版的nodejs已经集成了npm，所以之前npm也一并安装好了。
+  同样可以通过输入 "npm -v" 来测试是否成功安装。命令如下，出现版本提示表示安装成功:
+
+
+  命令：
+  npm install -g +包名（不写-g则安装到当前目录）
+  下载的包会保存到自动创建的node_modules文件夹下：npm/node_modules

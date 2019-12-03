@@ -1,0 +1,53 @@
+﻿九、进程管理
+1、使用nodejs终端命令来拷贝
+//xcopy sourceDirectory targetDirectory：拷贝目录
+//copy sourceDirectory targetDirectory：拷贝文件
+2、进程
+1）process全局对象:不用引入,可以直接使用{
+    process.title:输出cmd终端的路径；
+    process.stdout.write():标准输出;
+    process.stderr.write():标准输出错误;
+    process.stdin:标准输入;
+    process.stdin.on("data",function(data){
+        console.log("this is "+data.toString())
+    })
+}
+2）子进程 child_process创建与控制进程
+    child.process是一个事件发射器
+创建一个子进程的方法{
+    child_process.exec();
+    child_process.spawn();
+}
+3)多进程模块Cluster
+创建一个多进程{
+    //判断cpu核数
+    var cpulength=os.cpus().length
+    if(cpulength<3){
+        return
+    }else{
+        //判断进程是否主进程
+        if(cluster.isMaster){
+            //cosnole.log("is master")
+            //在主进程里面创建一个子进程
+            var worker=cluster.fork();
+        }else{
+             //cosnole.log("is worker"))
+             //启动一个http网络服务
+
+
+        }
+    }
+
+}
+！！：在主进程里面创建子进程子进程才可以用，否则会报错，无法执行子进程
+
+
+结束进程：{
+    1）exit()实现
+    2）通过时间发送器
+}
+
+
+
+12.6作业：为什么不能复制空文件夹，也不能复制出来有内容的文件夹
+只可以复制出来文件

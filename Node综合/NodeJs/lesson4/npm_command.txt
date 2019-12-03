@@ -1,0 +1,47 @@
+NPM常用的命令有
+
+1) 安装Node模块
+ $ npm install moduleNames
+
+2) 查看当前目录下已安装的node包
+
+ $ npm list
+
+3) 查看node模块的package.json文件夹
+
+$ npm view moduleNames
+
+4) 查看包的依赖关系
+
+$ npm view moduleName repository.url
+
+5)  查看包所依赖的Node的版本
+
+$ npm view moduleName engines
+
+6) 更新node模块
+
+$ npm update moduleName
+
+7) 卸载node模块
+
+$ npm uninstall moudleName
+
+npm cache ls 查看缓存列表
+npm cache clean  清除缓存
+npm cache clear  清除缓存
+
+npm adduser
+username:xxx
+passwrod:xxx
+email:xxx@xxx.com
+
+
+显示所有配置
+npm config list
+npm config set <key> <value> /  npm set <key> <value>
+
+eg: npm config set prefix D:\Node\npm
+
+npm get [<key>]
+eg: npm get prefix

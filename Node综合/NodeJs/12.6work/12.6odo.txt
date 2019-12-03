@@ -1,0 +1,10 @@
+创建子进程
+1、使用cmd 终端命令实现复制文件夹功能
+   判断文件存在不存在
+	存在 使用child_process.exec方法 执行xcopy 命令 复制文件
+   	不存在 创建目录 并 使用child_process.exec方法 执行xcopy 命令 复制文件
+2、使用child_process.spawn 创建一个网络服务（httpServer.js）的子进程
+
+	浏览器打开 访问得到页面
+	
+

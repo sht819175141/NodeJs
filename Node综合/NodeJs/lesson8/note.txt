@@ -1,0 +1,29 @@
+网络操作（二）：12.5
+压缩：即加密处理为不可识别的
+方法：使用zlib内置模块的方法   var zlib=require("zlib");
+1、Gzip+gunzip
+2、deflate+inflate     两种方法解压后的到的都是buffer数据格式
+1、
+1）创建一个新的Gzip对象
+var gzip=zlib.createGzip();
+2）创建一个读取流，写入流
+--通过pipe(gzip)将数据压缩并导入到要写的流中：readStream.pipe(gzip).pipe(writeStream)
+--读取压缩文件
+--用zlib的unzip(),解压读取出的buffer
+2、
+1）deliate、inflate：只能用于字符串
+2）通过zlib.deflate()将数据压缩
+3)zlib的inflate(),解压读取出的buffer
+
+
+
+
+
+
+
+
+
+
+创建一个读取流，压缩完之后，
+读取文件解压缩的时候，要把创建文件流的部分注释，否则每加载一次就会创建一次，下面解压的时候无法识别是解压旧的
+还是生成的新的，会报错。

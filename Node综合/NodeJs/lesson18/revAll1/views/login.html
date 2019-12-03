@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+</head>
+<body>
+<form action="./loginInter" method="post">
+    <div>
+        <label for="username">username:</label>
+        <input type="text" name="username" id="username" placeholder="your account">
+    </div>
+    <div>
+        <label for="password">password:</label>
+        <input type="password" name="password" id="password" placeholder="your password">
+    </div>
+    <div style="patting-top:10px;color:red"><%-error%></div>
+    <div>
+        <button type="submit">提交</button>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<ul class="table">
+    <% for (var i = 0;i < data.length; i++) { %>
+    <li><span>学号：</span><%= data[i].stu_number %></li>
+    <li><span>姓名：</span><%= data[i].stu_name %></li>
+    <li><span>年龄：</span><%= data[i].stu_age %></li>
+    <li><span>性别：</span><%= data[i].stu_gender %></li>
+    <li><span>家庭住址：</span><%= data[i].stu_address %></li>
+    <li><span>现居住地：</span><%= data[i].stu_apartment %></li>
+    <li><span>班级：</span><%= data[i].stu_classroom %></li>
+    <li><span>手机号码：</span><%= data[i].stu_cellphone %></li>
+    <% } %>
+</ul>

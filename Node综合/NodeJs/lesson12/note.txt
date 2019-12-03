@@ -1,0 +1,76 @@
+//----Express简单构建（exoress:基于nodejs的web框架）
+
+1、安装express
+npm install express -g 全局安装
+npm install express __save/空 当前目录安装
+2、安装express
+npm install express-generator -g 全局安装
+npm install express-generator __save/空 当前目录安装
+3、完成目录的搭建
+    1）用express-generator模块可以自动生成一个并列目录：命令：express 项目名
+    2）手动创建：demo{
+        node_modules
+        modules
+        public
+        routes(路由)
+        views
+        app1.js
+
+    }
+4、
+//1引入一个express模块
+var express=require("express");
+//2实例化一个express
+var app=express();
+//3创建一个http服务(实现了一个路由)
+/*app.get("/",function(req,res){
+    res.send("hello");//localhost:8080
+});
+app.get("/index",function(req,res){
+    res.send("this is a index");//localhost:8080/index
+});
+app.listen(8080,fun44ction(){
+    console.log("listen 8080");
+})
+*/
+
+app.get(‘/‘)是对所有（／）的url进行匹配
+app.get(‘/index’)是做什么：定义一个名为index的地址
+
+
+优化：外置模块的载入（调用app.js,app里面载入其他模块）：app.js调用routes文件夹下的js文件
+(把app.get回调函数里面的东西放到routes的js文件里面）
+因为实际上的路由有两个：一个是express()，另一个是route
+
+
+supervisor模块：相当于重启命令窗口（Starting child process with 'node app'）
+用了这个模块，更改了内容，命令窗口会自动重启，而不用重启node app，命令为：supervisor app
+所以只需要在浏览器页面可以直接刷新
+6、配置环境：
+配置成功之后的标志3个都可以查看版本：{
+    node -v
+    npm -v
+    express --version
+}
+需要配置全局{
+    NODE_PATH:第三方包的路径；
+    path：{
+        node.exe的路径，
+        node_modules的路径，[否则还需要将第三方包放到本文件夹下，程序会默认从本文件夹下的node_modules找，本文件夹下没有会主动向上寻找，直到找到e盘下的npm/node_modules]
+        第三方包的路径
+    }
+}
+前提：1）路径目录为E:\八维\八维软件\Node:{
+    nodejs
+    npm/node_modules:放第三方包
+    npm_cache
+}
+    2）将.npmrc文件放到C:\Users下：这样以后下载的第三方包会自动放到设置的E:\八维\八维软件\Node/npm/node_modules文件夹下
+没网的请情况下下载模块会报错：in most cases you are behined a proxy or have bad network setting
+会在目录下自动生成日志记录错误：npm_debug.log
+
+
+
+
+
+5、文件管理

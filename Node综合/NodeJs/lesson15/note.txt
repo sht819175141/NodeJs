@@ -1,0 +1,32 @@
+12.13:MySQL：
+首先解释误区：Apache与Wamp Server不一样
+Wamp Server是一个集成的环境{
+    Apache：php页面
+    Mysql：hostname、username、password
+    php5：
+}
+HeidiSQL是一个查看mysql代码的工具，开启了mysql才有用
+1、安装 MySQL Server5.0
+    ctrl+R：services.msc查看本地服务重启MySQL
+2、配置MySQL（安装完成之后，右击bin/...config.exe以管理员身份运行）
+3、检测是否安装成功：cmd.exe里面
+    mysql -u root -p
+    Enter password:    ********（12344321）：======>Welcome to the MySQL monitor
+    mysql>             show databases
+        ->             ;
+    mysql>             use mysql
+    Database changed
+    mysql>             show tables
+        ->             ;
+4、express结合表单提交：
+
+
+
+
+
+//作业：
+表单提交
+Ajax提交：express.static()
+实现登录操作，并给出提示
+
+

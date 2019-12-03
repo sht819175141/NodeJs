@@ -1,0 +1,22 @@
+1、使用fs.readfile读取出来的文件数据是buffer数据块,eg：
+fs.readFile("./readme.txt",function(err,data){
+    if(err) return console.error(err);
+    console.log(data);//单纯的输出data为--buffer数据
+    console.log(data.toString());//buffer数据转换为字符串
+    console.log("read finished"+data);//有除data之外的+data输出结果会自动转换为字符串
+
+})
+且同一文件用不同的字符编码得到的16进制buffer流是不一样的
+2、新写的文件如果不存在会自己创建一个出来，且回调里面只有一个参数
+fs.writeFile("./readme_copy.txt",data,encoding="utf8",function(err){
+        console.log("write done");
+
+})
+如果data参数：data，相当于写进去上面read出来的
+data参数：新的内容，那新文件里面就是新书写的内容
+这里的encoding，设置的是前面的data的编码【与右下角的设置同效】
+3、设置编码为：{
+    在websrorm：通过encoding="utf8"参数/右下角；
+    读取文件txt乱码：另存为txt文件（在黑窗口或者terminal中出现乱码的情况）
+
+}

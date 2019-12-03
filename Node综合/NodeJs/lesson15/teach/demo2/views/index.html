@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
+</head>
+<body>
+    <%- include('include/header')%>
+    <% if(flag){%>
+        <ul class="bg-red">
+            <li>姓名：<%- userInfo.name %></li>
+            <li>年龄：<%- userInfo.age %></li>
+            <li>性别：<%- userInfo.gender %></li>
+            <li>爱好：<%- userInfo.hobby %></li>
+            <li>薪酬：<%- userInfo.job %></li>
+        </ul>
+    <% }%>
+    <%- include('include/footer')%>
+</body>
+</html>

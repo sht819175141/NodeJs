@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><%= title%></title>
+</head>
+<style type="text/css">
+    #form{
+        width: 500px;
+        padding: 15px;
+        margin: auto;
+        background-color: #dec;
+    }
+    #form .title{
+        text-align: center;
+    }
+    #form-label label{
+        text-align: left;
+    }
+    #username,#password{
+        width: 100%;
+    }
+</style>
+<body>
+
+<form action="/index" method="post" id="form">
+    <h3 class="title">登录</h3>
+    <div class="form-label">
+        <label for="username">username:</label>
+        <input type="text" name="username" id="username" placeholder="please input you account"/>
+    </div>
+    <div>
+        <label for="password">password:</label>
+        <input type="text" name="password" id="password" placeholder="please input you account"/>
+    </div>
+    <div>
+        <br/>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+</body>
+</html>

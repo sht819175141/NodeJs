@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登陆页面</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="stylesheets/reset.css"/>
+</head>
+<body>
+<%- include('include/header')%>
+<div class="container mt text-center">
+    <h1>登陆页面</h1>
+
+    <form action="/login" method="post" style="width: 300px; margin: 0 auto;">
+        <table>
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text" placeholder="请输入用户名" name="username"/></td>
+            </tr>
+            <tr>
+                <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+                <td><input type="text" placeholder="请输入密码" name="userpswd"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="提交"/>
+                    <input type="button" value="注册"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<%- include('include/footer')%>
+<script src="javascripts/jquery-1.8.0.js"></script>
+<script src="javascripts/bootstrap.min.js"></script>
+</body>
+</html>

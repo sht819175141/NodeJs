@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!--使用模板引擎设定title-->
+    <title><%= title %></title>
+</head>
+<body>
+jsonp方式
+<div>
+    <h3>登陆</h3>
+    <div>
+        <label for="username">username:</label>
+        <input type="text" name="username" id="username" placeholder="please input your account">
+    </div>
+    <div>
+        <label for="password">password:</label>
+        <input type="password" name="password" id="password" placeholder="please input your password">
+    </div>
+    <div>
+        <input type="submit" name="submit" id="subBtn" >
+    </div>
+</div>
+<Script src="javascripts/jquery-1.8.3.min.js"></Script>
+<script>
+    $("#subBtn").on("click",function(){
+        var username=$("username").val();
+        var passward=$("passward").val();
+        $.ajax({
+            url:"http://localhost:8080/_login",
+            data:{
+                username:username,
+                passward:passward
+            },
+            type:"get",
+            success:function(data){
+                alert(data);
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

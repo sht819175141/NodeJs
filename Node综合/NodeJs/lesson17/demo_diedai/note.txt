@@ -1,0 +1,11 @@
+//静态文件服务器：{
+    一次迭代：读完再写
+    二次迭代：边读边输出（用流）
+}
+二次迭代解决了：{
+    提高性能问题：使用readSream
+    http://lcalhost:8080/foo/bar.js,baz.js问题：当文件前面有文件夹时,加上??会出来
+    ??foo/bar.js,foo/baz.js而不是foo??bar.js,baz.js,所以需要判断是否是文件
+}
+
+//报错：favoico.ico为图片报错

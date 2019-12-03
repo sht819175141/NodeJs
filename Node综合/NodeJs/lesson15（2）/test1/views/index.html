@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="stylesheets/reset.css"/>
+</head>
+<body>
+    <%- include('include/header')%>
+    <div class="container mt text-center">
+        <h1>高文雅的个人资料</h1>
+        <ul>
+        <% for(var i=0;i< users.length;i++){%>
+            <li><span>名字：</span><%- users[i].stu_name%></li>
+            <li><span>年龄：</span><%- users[i].stu_age%></li>
+            <li><span>性别：</span><%- users[i].stu_gender%></li>
+            <li><span>地址：</span><%- users[i].stu_address%></li>
+            <li><span>邮箱：</span><%- users[i].stu_email%></li>
+        <%}%>
+        </ul>
+    </div>
+    <%- include('include/footer')%>
+    <script src="javascripts/jquery-1.8.0.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
+</body>
+</html>

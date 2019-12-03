@@ -1,0 +1,130 @@
+Zlib
+官方文档： http://nodejs.org/api/zlib.html
+
+zlib模块提供了数据压缩和解压的功能。当我们处理HTTP请求和响应时，可能需要用到这个模块。
+
+首先我们看一个使用zlib模块压缩HTTP响应体数据的例子。这个例子中，判断了客户端是否支持gzip，并在支持的情况下使用zlib模块返回gzip之后的响应体数据。
+
+01	http.createServer(function (request, response) {
+02	    var i = 1024,
+03	        data = '';
+04	 
+05	    while (i--) {
+06	        data += '.';
+07	    }
+08	 
+09	    if ((request.headers['accept-encoding'] || '').indexOf('gzip') !== -1) {
+10	        zlib.gzip(data, function (err, data) {
+11	            response.writeHead(200, {
+12	                'Content-Type': 'text/plain',
+13	                'Content-Encoding': 'gzip'
+14	            });
+15	            response.end(data);
+16	        });
+17	    } else {
+18	        response.writeHead(200, {
+19	            'Content-Type': 'text/plain'
+20	        });
+21	        response.end(data);
+22	    }
+23	}).listen(80);
+接着我们看一个使用zlib模块解压HTTP响应体数据的例子。这个例子中，判断了服务端响应是否使用gzip压缩，并在压缩的情况下使用zlib模块解压响应体数据。
+
+01	var options = {
+02	        hostname: 'www.example.com',
+03	        port: 80,
+04	        path: '/',
+05	        method: 'GET',
+06	        headers: {
+07	            'Accept-Encoding': 'gzip, deflate'
+08	        }
+09	    };
+10	 
+11	http.request(options, function (response) {
+12	    var body = [];
+13	 
+14	    response.on('data', function (chunk) {
+15	        body.push(chunk);
+16	    });
+17	 
+18	    response.on('end', function () {
+19	        body = Buffer.concat(body);
+20	 
+21	        if (response.headers['content-encoding'] === 'gzip') {
+22	            zlib.gunzip(body, function (err, data) {
+23	                console.log(data.toString());
+24	            });
+25	        } else {
+26	            console.log(data.toString());
+27	        }
+28	    });
+29	}).end();
+Net
+官方文档： http://nodejs.org/api/net.html
+
+ 建Socket服务器或Socket客户端。由于Socket在前端领域的使用范围还不是很广，这里先不涉及到WebSocket的介绍，仅仅简单演示一下如何从Socket层面来实现HTTP请求和响应。
+
+首先我们来看一个使用Socket搭建一个很不严谨的HTTP服务器的例子。这个HTTP服务器不管收到啥请求，都固定返回相同的响应。
+
+01	net.createServer(function (conn) {
+02	    conn.on('data', function (data) {
+03	        conn.write([
+04	            'HTTP/1.1 200 OK',
+05	            'Content-Type: text/plain',
+06	            'Content-Length: 11',
+07	            '',
+08	            'Hello World'
+09	        ].join('\n'));
+10	    });
+11	}).listen(80);
+接着我们来看一个使用Socket发起HTTP客户端请求的例子。这个例子中，Socket客户端在建立连接后发送了一个HTTP GET请求，并通过data事件监听函数来获取服务器响应。
+
+01	var options = {
+02	        port: 80,
+03	        host: 'www.baidu.com'
+04	    };
+05	 
+06	var client = net.connect(options, function () {
+07	        client.write([
+08	            'GET / HTTP/1.1',
+09	            'User-Agent: curl/7.26.0',
+10	            'Host: www.baidu.com',
+11	            'Accept: */*',
+12	            '',
+13	            ''
+14	        ].join('\n'));
+15	    });
+16	 
+17	client.on('data', function (data) {
+18	    console.log(data.toString());
+19	    client.end();
+20	});
+灵机一点
+使用NodeJS操作网络，特别是操作HTTP请求和响应时会遇到一些惊喜，这里对一些常见问题做解答。
+
+问： 为什么通过headers对象访问到的HTTP请求头或响应头字段不是驼峰的？
+
+答： 从规范上讲，HTTP请求头和响应头字段都应该是驼峰的。但现实是残酷的，不是每个HTTP服务端或客户端程序都严格遵循规范，所以NodeJS在处理从 别的客户端或服务端收到的头字段时，都统一地转换为了小写字母格式，以便开发者能使用统一的方式来访问头字段，例如headers['content-length']。
+
+问： 为什么http模块创建的HTTP服务器返回的响应是chunked传输方式的？
+
+答： 因为默认情况下，使用.writeHead方法写入响应头后，允许使用.write方法写入任意长度的响应体数据，并使用.end方法结束一个响应。由于响应体数据长度不确定，因此NodeJS自动在响应头里添加了Transfer-Encoding: chunked字段，并采用chunked传输方式。但是当响应体数据长度确定时，可使用.writeHead方法在响应头里加上Content-Length字段，这样做之后NodeJS就不会自动添加Transfer-Encoding字段和使用chunked传输方式。
+
+问： 为什么使用http模块发起HTTP客户端请求时，有时候会发生socket hang up错误？
+
+答： 发起客户端HTTP请求前需要先创建一个客户端。http模块提供了一个全局客户端http.globalAgent，可以让我们使用.request或.get方法时不用手动创建客户端。但是全局客户端默认只允许5个并发Socket连接，当某一个时刻HTTP客户端请求创建过多，超过这个数字时，就会发生socket hang up错误。解决方法也很简单，通过http.globalAgent.maxSockets属性把这个数字改大些即可。另外，https模块遇到这个问题时也一样通过https.globalAgent.maxSockets属性来处理。
+
+小结
+本章介绍了使用NodeJS操作网络时需要的API以及一些坑回避技巧，总结起来有以下几点：
+
+http和https模块支持服务端模式和客户端模式两种使用方式。
+
+request和response对象除了用于读写头数据外，都可以当作数据流来操作。
+
+url.parse方法加上request.url属性是处理HTTP请求时的固定搭配。
+
+使用zlib模块可以减少使用HTTP协议时的数据传输量。
+
+通过net模块的Socket服务器与客户端可对HTTP协议做底层操作。
+
+小心踩坑。

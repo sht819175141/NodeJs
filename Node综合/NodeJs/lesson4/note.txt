@@ -1,0 +1,86 @@
+复习：完整的模块开发过程：
+{
+    modules：放自定义模块{
+        自定义模块名{
+            lib{
+                要抛出的模块们
+            }
+            入口文件(默认为index.js)
+            README.md
+            package.json（不能为空）
+        }
+    }
+    node_modules:放外置模块（即第三方下载的）
+    review.js（一个项目的入口文件,默认为app.js）
+}
+
+模块分为：内置、外置（第三方下载的）、自定义模块（自己写的）
+cmd：command的简称
+！！：放在node_modules的模块（无论是下载的外置模块还是自定义的模块），写路径时可省略，
+    会自动从node_modules下寻找模块 eg：require("./node_modules/person")可为require("person")
+
+11.30
+NPM:nodeJs的包管理器
+1、下载第三方包：
+    npm install packageName -g 全局安装（不写g或者写-d为当前目录安装）
+    npm install packageName --save 当前项目安装
+    npm install packageName        本地安装
+
+    不写全局会下载到当前路径，否则会自动到设置的全局当中：
+    E:\Node\nodejs\node_modules\npm\node_modules下
+2、发布一个包：
+   1）http：//www.npm.org 注册一个账号
+   2）打开cmd （-npm -l）-npm addUser 输入你的用户名、密码
+   3）配置package.json文件准备发布（管理目录尽量完善）
+   4）通过npm publish发布一个包，并且pckage.json文件的name不能与npm 服务器有重复，否则报错
+
+3、扩展npm。。。。。
+
+5、为啥要用npm
+  第三方的扩展和模块在Node的使用中起到重要的作用
+6、配置npm的全局模块的存放路径以及cache的路径：
+  npm config set prefix "D:\Node\npm\node_modules"
+  npm config set cache "D:\Node\npm-cache"
+7、npm 更新
+  npm install npm -g
+  更新所有包
+  npm update -g
+8、清除缓存
+npm cache clean [<pkg>[@<version>]]
+npm cache ls [<path>]
+9、查看模块
+  npm ls
+  卸载模块
+  npm uninstall <Module Name>
+  npm uninstall requirejs -g
+  npm uninstall requirejs
+  npm ls
+
+  更新模块
+  npm update <Module Name>
+  npm ls
+10、发布模块
+   npm publish
+   如果你以上的步骤都操作正确，你就可以跟其他模块一样使用 npm 来安装。
+   撤销发布
+   npm unpublish <package>@<version>可以撤销发布自己发布过的某个版本代码
+11、npm常见命令（npm_command.txt）
+
+
+4、package.json属性说明：
+name - 包名。
+version - 包的版本号。
+description - 包的描述。
+homepage - 包的官网 url 。
+author - 包的作者姓名。
+contributors - 包的其他贡献者姓名。
+dependencies - 依赖包列表。如果依赖包没有安装，npm 会自动将依赖包安装在 node_module 目录下。
+repository - 包代码存放的地方的类型，可以是 git 或 svn，git 可在 Github 上。
+main - main 字段是一个模块ID，它是一个指向你程序的主要项目。就是说，如果你包的名字叫 express，然后用户安装它，然后require("express")。
+keywords - 关键字
+
+
+
+
+
+

@@ -1,0 +1,459 @@
+1.	第七单元  网络操作（一）
+1.1.	启动服务
+1.1.1.	实现一个简单的http服务器
+1.2.	http及https
+1.2.1.	http内置模块
+1.2.2.	https内置模块
+1.3.	url及query string
+1.1.2.	url内置模块
+1.1.3.	query string内置模块
+
+
+
+2.	第八单元 网络操作（二）
+2.1.	zlib（数据压缩和解压）
+2.1.1.	数据压缩
+2.1.2.	数据解压
+2.2.	net（Socket服务器或Socket客户端）
+2.2.1.	使用Socket搭建一个简单的HTTP服务器
+2.2.2.	使用Socket发起HTTP客户端
+
+
+2.3.	socket.io <http://socket.io>模块讲解
+1.1.4.	通过引入socket.io模块配合nodejs实现数据双工通信
+2.4.	总结
+
+
+聊天室
+
+
+一， 网络服务
+
+1 -- http https
+
+https模块与http模块极为类似，区别在于https模块需要额外处理SSL证书。
+
+        在http这里我就不说太多了；
+        var http= require( "http" );
+
+                http.createServer( function( req,res ){
+
+                        req 请求体，保存了我们大部分请求数据信息的一个集合
+
+                        res 发送体,  处理页面的发送内容
+                        使用 "response.writeHead()"  函数发送一个Http状态200和Http头的内容类型（content-type）
+                        ”response.end“------当所有的响应报头和报文被发送完成时这个方法将信号发送给服务器。服务器会认为这个消息完成了
+
+                }).listen( 8888 );
+                listen 监听端口给与响应 官方点就是：服务器用指定的句柄接受连接，绑定在特定的端口。
+
+                 在服务端模式下，创建一个HTTPS服务器的示例如下。
+
+                var options = {
+                    key: fs.readFileSync('./ssl/default.key'),
+                    cert: fs.readFileSync('./ssl/default.cer')
+                };
+                //秘钥和公钥
+
+                var server = https.createServer(options, function (request, response) {
+                        // ...
+                    });
+	 //可以看到，与创建HTTP服务器相比，多了一个options对象，通过key和cert字段指定了HTTPS服务器使用的私钥和公钥。
+
+    另外，NodeJS支持SNI技术，可以根据HTTPS客户端请求使用的域名动态使用不同的证书，
+    因此同一个HTTPS服务器可以使用多个域名提供服务。
+    接着上例，可以使用以下方法为HTTPS服务器添加多组证书。
+
+            server.addContext('foo.com', {
+                key: fs.readFileSync('./ssl/foo.com.key'),
+                cert: fs.readFileSync('./ssl/foo.com.cer')
+            });
+
+            server.addContext('bar.com', {
+                key: fs.readFileSync('./ssl/bar.com.key'),
+                cert: fs.readFileSync('./ssl/bar.com.cer')
+            });
+
+在客户端模式下，发起一个HTTPS客户端请求与http模块几乎相同，示例如下。
+
+            var options = {
+                    hostname: 'www.example.com',
+                    port: 443,
+                    path: '/',
+                    method: 'GET'
+                };
+
+            var request = https.request(options, function (response) {});
+
+            request.end();
+
+但如果目标服务器使用的SSL证书是自制的，不是从颁发机构购买的，默认情况下https模块会拒绝连接，
+提示说有证书安全问题。在options里加入rejectUnauthorized: false字段可以禁用对证书有效性的检查，
+从而允许https模块请求开发环境下使用自制证书的HTTPS服务器。
+
+        var url = require('url');
+         var queryUrl = "http://localhost:8888/bb?name=bigbear&memo=helloworld" ;
+                                                                            console.log(typeof url.parse(queryUrl)) ;
+                                                                             console.log(url.parse(queryUrl)) ;
+
+ object // typeof
+
+         {
+             protocol: 'http:',
+             slashes: true,
+             auth: null,
+             host: 'localhost:8888',
+             port: '8888',
+             hostname: 'localhost',
+             hash: null,
+             search: '?name=bigbear&memo=helloworld',
+             query: 'name=bigbear&memo=helloworld',
+             pathname: '/bb',
+             path: '/bb?name=bigbear&memo=helloworld',
+             href: 'http://localhost:8888/bb?name=bigbear&memo=helloworld'
+         }
+         输入一个 URL 对象，返回格式化后的 URL 字符串。
+
+　加以说明如下：　　
+
+　　protocol: 请求协议
+
+　　host: URL主机名已全部转换成小写, 包括端口信息
+
+　　auth:URL中身份验证信息部分
+
+　　hostname:主机的主机名部分, 已转换成小写
+
+　　port: 主机的端口号部分
+
+　　pathname: URL的路径部分,位于主机名之后请求查询之前
+
+　　search: URL 的“查询字符串”部分，包括开头的问号。
+
+　　path: pathname 和 search 连在一起。
+
+　　query: 查询字符串中的参数部分（问号后面部分字符串），或者使用 querystring.parse() 解析后返回的对象。
+
+　　hash: URL 的 “#” 后面部分（包括 # 符号）
+
+　
+　　url模块
+
+        对于一个 URL 字符串，其组成部分会有所有不同，其中有些部分只有在URL字符串中存在时，对应字段才会出现在解析后对象中。以下是一个 URL 例子：
+
+        http://user:pass@host.com:8080/p/a/t/h?query=string#hash
+
+        解析后对象字段如下：
+
+        href: 解析前的完整原始 URL，协议名和主机名已转为小写
+        例如: 'http://user:pass@host.com:8080/p/a/t/h?query=string#hash'
+
+        protocol: 请求协议，小写
+        例如: 'http:'
+
+        slashes: 协议的“：”号后是否有“/”
+        例如: true or false
+
+        host: URL主机名，包括端口信息，小写
+        例如: 'host.com:8080'
+
+        auth: URL中的认证信息
+        例如: 'user:pass'
+
+        hostname: 主机名，小写
+        例如: 'host.com'
+
+        port: 主机的端口号
+        例如: '8080'
+
+        pathname: URL中路径
+        例如: '/p/a/t/h'
+
+        search: 查询对象，即：queryString，包括之前的问号“?”
+        例如: '?query=string'
+
+        path: pathname 和 search的合集
+        例如: '/p/a/t/h?query=string'
+
+        query: 查询字符串中的参数部分（问号后面部分字符串），或者使用 querystring.parse() 解析后返回的对象
+        例如: 'query=string' or {'query':'string'}
+
+        hash: 锚点部分（即：“#”及其后的部分）
+        例如: '#hash'
+
+        文／明明三省（简书作者）
+        原文链接：http://www.jianshu.com/p/aed6a885db61
+        著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。
+
+        将URL字符串转换为对象：url.parse
+        将对象格式化为URL字符串：url.format
+
+
+（2），"QueryString模块"
+
+
+
+　　"QueryString" 模块用于实现URL参数字符串与参数对象的互相转换，
+
+　　querystring.stringify                     序列化一个对象到一个 query string。　　　　
+        　　　　　　　　
+        也可以做 替换的效果
+　　querystring.stringify({foo: 'bar', baz: 'qux'}, ';', ':')// 返回如下字串'foo:bar;baz:qux'
+        第二参数为替换后的值   第三参数为查找替换的值
+
+　　querystring.parse(str, [sep], [eq], [options])
+        将一个 query string 反序列化为一个对象。可以选择是否覆盖默认的分割符（'&'）和分配符（'='）。
+　　options对象可能包含maxKeys属性(默认为1000),它可以用来限制处理过的键(key)的数量.
+        设为0可以去除键(key)的数量限制.
+　　
+　　示例：querystring.parse('foo=bar&baz=qux&baz=quux&corge') // { foo: 'bar', baz: ['qux', 'quux'], corge: '' }
+
+
+
+
+（3），"Path模块"
+
+
+
+　　本模块包含一套用于处理和转换文件路径的工具集。几乎所有的方法仅对字符串进行转换， 文件系统是不会检查路径是否真实有效的。
+
+　　先来一个简单的栗子：　　　　
+
+        格式化路径 path.normalize(p)
+        特点：将不符合规范的路径格式化，简化开发人员中处理各种复杂的路径判断
+
+        路径合并 path.join([path1], [path2], […])
+        特点：将所有名称用path.seq串联起来，然后用normailze格式化
+
+        路径寻航 path.resolve([from …], to)
+        特点：相当于不断的调用系统的cd命令
+
+        相对路径 path.relative(from, to)
+        特点：返回某个路径下相对于另一个路径的相对位置串，相当于：path.resolve(from, path.relative(from, to)) == path.resolve(to)
+
+        文件夹名称 path.dirname(p)
+        特点：返回路径的所在的文件夹名称
+
+        文件名称 path.basename(p, [ext])
+        特点：返回指定的文件名，返回结果可排除[ext]后缀字符串
+
+        扩展名称 path.extname(p)
+        特点：返回指定文件名的扩展名称
+
+        特定平台的文件分隔符 path.sep
+        特点：获取文件路径的分隔符，主要是与操作系统相关
+        特定平台的路径分隔符 path.delimiter
+        特定平台的路径分隔符, ‘;‘ 或者 ‘:‘.
+
+
+
+二、压缩
+
+         Node.js中提供了一个很好的库Zlib来压缩解压数据。
+         压缩缓冲区 Zlib中有下面几个函数方便解压缩缓冲区. gzip/gunzip：
+          标准gzip压缩. deflate/inflate：基于Huffman编码的标准deflate压缩算法。 deflateRaw/inflateRaw：针对...
+
+          Node.js中提供了一个很好的库Zlib来压缩解压数据。
+
+        压缩缓冲区
+
+          Zlib中有下面几个函数方便解压缩缓冲区.
+
+          gzip/gunzip：标准gzip压缩.
+
+          deflate/inflate：基于Huffman编码的标准deflate压缩算法。
+
+          deflateRaw/inflateRaw：针对原始缓冲区的deflate压缩算法。
+
+          它们的函数都是function(buffer,callback).
+
+
+          var zlib = require("zlib");
+          var input = '...............text...............';
+          zlib.deflate(input, function(err, buffer) {
+            if (!err) {
+              console.log("deflate (%s): ", buffer.length, buffer.toString('base64'));
+              zlib.inflate(buffer, function(err, buffer) {
+                if (!err) {
+                  console.log("inflate (%s): ", buffer.length, buffer.toString());
+                }
+              });
+              zlib.unzip(buffer, function(err, buffer) {
+                if (!err) {
+                  console.log("unzip deflate (%s): ", buffer.length, buffer.toString());
+                }
+              });
+            }
+          });
+
+          zlib.deflateRaw(input, function(err, buffer) {
+            if (!err) {
+              console.log("deflateRaw (%s): ", buffer.length, buffer.toString('base64'));
+              zlib.inflateRaw(buffer, function(err, buffer) {
+                if (!err) {
+                  console.log("inflateRaw (%s): ", buffer.length, buffer.toString());
+                }
+              });
+            }
+          });
+
+          zlib.gzip(input, function(err, buffer) {
+            if (!err) {
+              console.log("gzip (%s): ", buffer.length, buffer.toString('base64'));
+              zlib.gunzip(buffer, function(err, buffer) {
+                if (!err) {
+                  console.log("gunzip (%s): ", buffer.length, buffer.toString());
+                }
+              });
+              zlib.unzip(buffer, function(err, buffer) {
+                if (!err) {
+                  console.log("unzip gzip (%s): ", buffer.length, buffer.toString());
+                }
+              });
+            }
+          });
+
+            管道压缩
+
+            var zlib = require('zlib');
+            var gzip = zlib.createGzip();
+            var fs = require('fs');
+            var inp = fs.createReadStream('input.txt');   //读写流
+            var out = fs.createWriteStream('input.txt.gz');     //输出流 如果没有自动创建
+                   inp.pipe(gzip).pipe(out);
+
+             node-native-zip压缩
+
+                 var fs = require("fs");
+                 var zip = require("node-native-zip");
+
+                 var archive = new zip();
+
+                 archive.addFiles([
+                     { name: "moehah.txt", path: "./test/moehah.txt" },
+                     { name: "images/suz.jpg", path: "./test/images.jpg" }
+                 ], function (err) {
+                     if (err) return console.log("err while adding files", err);
+
+                     var buff = archive.toBuffer();
+
+                     fs.writeFile("./test2.zip", buff, function () {
+                         console.log("Finished");
+                     });
+                 });
+
+
+
+             解压缩
+
+              unzip模块
+
+                  var fs = require('fs'),
+                      unzip = require('unzip');
+                                                         压缩文件地址              管道                           解压到地址
+                  fs.createReadStream('path/to/archive.zip').pipe(unzip.Extract({ path: 'output/path' }));
+
+                  var extract = unzip.Extract({ path:  './public/ebook/' });
+                  extract.on('error', function(err) {
+                      console.log("error++++++++++++++++++++++");
+                      console.log(err);
+                      //解压异常处理
+                  });
+                  extract.on('finish', function() {
+                      console.log("解压完成!!");
+                      //解压完成处理
+                  });
+                  fs.createReadStream(target_path).pipe(extract);
+
+                  改进代码
+
+
+            net模块解析
+
+            它是做什么用的呢？ （ Net 模块可用于创建socket 服务器或socket 客户端。 是nodejs 的数据通信，最基础的两个模块 [ net，http ] 之一
+            not是基于Tcp的封装 http则还是Tcp的层 只不过做了比较多的封装，我们视为表现层）
+
+            （1） Tcp/ip-----该协议是传输层协议，主要解决数据如何在网络中传输
+            （2） socket-----对Tcp/ip协议的封装和应用（ 程序层面 ）
+            （3）http-------是应用层协议，只要解决如何包装数据
+            （4）网络七层模块-物理层，数据链路层，网络层，传输层，会话层，表示层，应用层
+
+            总结： socket 是对Tcp/ip协议的封装，socket 本身并不是协议，而是一个调用接口（ api ）
+                     从而形成了我们知道的一些最基本的函数接口，比如：
+                     Create    Listen    Connect  Accept   Send   Read  Write
+                     Tcp/ip只是一个协议线，就像操作系统的运行机制一样，必须要具体实现，同时还要提供对外的操作接口
+                     实际上，传输层的Tcp 是基于网络层的IP协议的，而应用层的Http 协议又是基于传输层的Tcp协议，而 socket本身并不算协议，只提供一个针对Tcp （ UDp ）编程的借口
+
+
+            net.createServer   创建一个 Tcp 服务，这个服务器绑定（ server.listen ）在****端口，
+
+                   net.connect         顾名思义，就是连接到服务端，第一个参数是对象  一般含host属性代表地址，默认localhost （本地 ）
+                                            返回uge新的“net socket” 并连接到指定的地址和端口，当socket建立的时候，就会响应
+
+                   net.createConnection（ port[,host][,connectListener] ）      创建一个到端口为port 和主机为 host 的Tcp连接 ，host默认 localhost
+                                                                                                    connectListener 会作为监听器 添加到 connect 事件 返回 “net socket”
+
+
+                   net.isIP               检测输入的是否是IP地址 ，ipv4 返回4 ipv6 返回6 其他返回0
+
+                   net.isIPv4           如果IP地址是 ipv4 返回true
+
+
+
+                   net.server=====
+                            listen      监听端口
+                            close       停止接受新的链接， 保持现有状态 ， 链接接受后服务器关闭， 并触发close 事件
+                            address   操作系统返回绑定的地址，协议族名和服务器端口
+                            unref      如果这是事件系统的唯一一个活动的服务器，调用unref可以允许程序退出
+                            ref         与ref相反
+                            getConnections（ callback ）  异步获取服务器当前活跃链接的数量，当socket发送给子进程后才有效 ， 回调俩参数 err , count
+
+                   事件：
+
+                          listening   当服务器调用server.listen 绑定后调用
+                          connection 当心链接创建后悔触发，socket 是net.socket 实例
+                          close         服务器关闭会触发    到服务器连接完全关闭才会触发
+                          error       发生错误的时候
+
+                    创建net
+
+                    var net = require('net') ;
+                    var server = net.createServer(function(c) { // Connection监听器
+                      console.log("服务器已连接") ;
+                      c.on("end", function() {
+                        console.log("服务器已断开") ;
+                      }) ;
+                      c.write("Hello,Bigbear !\r\n") ;
+                      c.pipe(c) ;
+                    }) ;
+                    server.listen(8124, function() { // Listening监听器
+                      console.log("服务器已绑定") ;
+                    }) ;
+
+                    var net = require('net') ;
+                    var client = net.connect({
+                        port: 8124
+                    },function(){ // connect监听器
+                      console.log("客户端已连接") ;
+                      client.write('Hello,Baby !\r\n') ;
+                    });
+                    client.on("data", function(data) {
+                      console.log(data.toString()) ;
+                      client.end() ;
+                    });
+                    client.on("end", function(){
+                      console.log("客户端断开连接") ;
+                    }) ;
+
+
+
+                    服务端------net.createServer创建一个 TCP 服务，这个服务绑定（server.listen）在 8124 这个端口上，创建 Server 后我们看到有一个回调函数，
+
+                    在调用上面函数的时候传入一个参数，这个参数也是函数，并且接受了 socket ，这个由其他方法构造的一个管道（pipe），他的作用就是用来数据交互的。
+
+                    pipe 是需要 Client 跟 Server 打招呼才能建立的，如果此刻没有客户端访问 Server，这个 socket 就不会存在了。
+
+                    客户端------net.connect顾名思义，就是连接到服务端，第一个参数是对象，设置端口（port）为 8124，也就是我们服务器监听的端口，由于没有设置 host 参数，那默认就是 localhost （本地）。
+
+                    在 Server 中，socket 是管道的一端，而在 client 中，client 本身就是管道的一端，如果是多个客户端连接 Server，Server 会新建多个 socket，每个 socket 对应一个 client。
+

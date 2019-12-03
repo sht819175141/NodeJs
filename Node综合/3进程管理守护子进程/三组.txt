@@ -1,0 +1,121 @@
+进程管理 
+
+一 process是什么
+
+process是全局对象
+
+process的属性
+
+process.pid   //id号
+process.version  //版本号
+process.title  //标题
+process.argv  // 当前进程的命令行参数数组
+
+process的事件
+
+exit  //退出事件
+readable //可读的数据
+
+process的方法
+
+process.stdin标准输入 process.stdout标准输出  process.stderr标准错误
+
+process.cwd()和__dirname的区别
+
+process.cwd():表示当前文件的绝对路径
+__dirname输出的是通过node执行的js文件所在的绝对路径
+
+
+二 Child_Process //子进程模块
+
+使用Child_Process模块可以创建和控制子进程.该模块提供的API中最核心的是.spawn
+
+Child_Process的方法
+
+spawn   exec
+
+创建子进程的方法有哪些
+
+cluster.fork()
+
+child_process.fork()
+
+
+获取每个子进程的id通过cluster.worker.id
+
+创建一个子进程并且执行其程序的是
+
+child_process.spawn(‘node’,[‘./child.js’])
+
+
+三  Cluster 主进程模块
+
+cluster模块是对child_process模块的进一步封装,专用 于简单程序NodeJSWeb服务器无法充分利用多核CPU的问题.使用该模块可以简化多进程服务器程序的开发,让每个核上运行一个公作进程,并统一通过主进程监听端口和分发请求
+
+isMaster判断是不是主进程
+
+
+还有  主进程和子进程不共享  如果在主进程中改变些数据那么他在子进程中获取的还是原来初始的那个值
+
+
+进程之间通讯正确的步骤是
+监听message事件接受值
+
+
+send方法发送需要通讯的值
+
+对进程之前描述正确的说法是
+可以通过监听message事件达到数据通讯
+
+守护子进程的好处？：
+
+ 当子进程崩掉可以使其重新启动
+ 防止进程崩掉导致无响应
+
+
+
+四 异步编程
+
+异步核心 是 回调函数
+
+异步是无需等待响应即可执行其它代码
+ 
+常见的异常有哪些
+异步异常和同步异常
+
+
+捕获异常常用的方法
+
+uncaughtException 事件
+try catch但是捕捉异常的情况有限
+domain 模块
+
+
+try catch在nodejs中一般应用在什么时候
+处理异常
+
+
+
+
+五 域(domain)
+
+简单的讲一下域是什么
+一个域就是一个JS运行环境,在一个运行环境中,如果一个异常没有被捕获,将作为一个全局被抛出
+
+domain模块是做什么
+
+捕捉异步回调中出现的异常
+
+
+domain模块为nodejs编程带来的好处：
+						 
+捕捉异常，对代码进行优化
+可以很好的设计异常管理
+
+domain模块的api的是？：
+						 
+domain.run()
+
+domain.create()
+
+domain.add()

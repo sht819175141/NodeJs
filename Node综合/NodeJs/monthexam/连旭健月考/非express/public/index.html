@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+    <link rel="stylesheet" href="./stylesheets/style.css"/>
+<body>
+    <button class="btn">请求8081端口</button>
+    <p></p>
+    <script src="./javascripts/jquery-2.1.1.js"></script>
+    <script>
+        $('.btn').click(function(){
+
+            //跨域请求8081端口
+            $.ajax({
+                url:'http://localhost:8081',
+                dataType:'jsonp',
+                success:function(data){
+                    console.log(data)
+                    var datas=JSON.stringify(data);
+                    $('p').html('<b>request success,data is:</b>'+datas)
+                }
+            })
+        })
+    </script>
+</body>
+</html>

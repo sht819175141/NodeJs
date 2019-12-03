@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <!--<title><%=title%></title>-->
+    <!--<meta name="author" content="<%=author%>">-->
+    <!--<meta name="email" content="<%=email%>">-->
+</head>
+
+<body>
+    <form>
+        <label for="username">用户名：</label>
+        <input type="text" id="username" name="username" /></br>
+        <label for="password">密码：&nbsp</label>
+        <input type="password" id="password" name="password" /></br>
+        <div id="error"></div>
+        <input type="submit" id="subBtn" name="submit" />
+    </form>
+    <script src="../public/javascripts/jquery-1.8.3.min.js"></script>
+    <script>
+        $("#subBtn").on("click", function () {
+            $.ajax({
+                url: "http://localhost:7080/userLogin",
+                dataType: "jsonp",
+                data: {
+                    username: $("#username").val(),
+                    password: $("#password").val()
+                },
+                success: function (data) {
+                    console.log(data)
+                    //判断从接口接收到的数据
+                    //                if(data.errCode==0 && data.isLogin==true && data.isSucess==true){
+                    if (data.errCode == 0 && data.isSucess) {
+                        //成功后跳转页面(或者给sucess定一个路由页面)
+                        location.href =
+                            "http://localhost:63342/NodeJs/lesson19BigRe/views/success.html"
+                    } else {
+                        $("#error").text("账号或者密码错误！")
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

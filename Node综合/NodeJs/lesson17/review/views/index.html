@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!--使用模板引擎设定title-->
+    <title><%= title %></title>
+    <link rel="stylesheet" href="stylesheets/style1.css"/>
+</head>
+<body>
+json方式
+    <form action="/index" method="post" class="form">
+        <h3>登陆</h3>
+        <div>
+            <label for="username">username:</label>
+            <input type="text" name="username" id="username" placeholder="please input your account">
+        </div>
+        <div>
+<label for="password">password:</label>
+<input type="password" name="password" id="password" placeholder="please input your password">
+</div>
+<div>
+    <input type="submit" name="submit" id="subBtn" >
+</div>
+</form>
+
+</body>
+</html>

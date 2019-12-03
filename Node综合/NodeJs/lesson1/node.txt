@@ -1,0 +1,43 @@
+1、window+r:打开命令窗口
+1）输入cmd（或者shift+右键）：{
+    npm -v：检是否安装了包管理器npm，输出其版本
+    node -v：输出nodejs的版本号
+}
+
+=>默认进入c，进入其他盘：f:（enter
+console.log("a")或者 node js文件名
+若进入其他盘的文件夹则：先进入盘再cd +具体路径（enter
+再 console.log("a")或者 node js文件名
+
+退出到根目录：cd ../
+清空：cls
+退到一开始：ctrl+c
+2）总结：运行nodejs的方法：
+    打开终端，键入node空格，需要执行的js文件名
+    打开终端，键入node进入命令交互模式
+
+
+    如何运行nodejs
+    方法1、
+    C:\Users\Nan>node
+    > console.log('123')
+    123
+    undefined
+    >
+    方法2、
+    //one.js
+    console.log("hello world!");
+    node one.js
+
+2、Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。
+  Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。
+  Node.js 的包管理器 npm，是全球最大的开源库生态系统。
+  特点{
+    非阻塞式 I/O(异步I/O) ;
+    单线程;
+    跨平台;
+    事件与回调函数；
+  }
+
+3、API：Application Programming Interface应用程序编程接口
+I/O：输入/输出

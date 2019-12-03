@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>nodejs中的ajax请求</title>
+</head>
+<body>
+
+<script>
+    //node  ajax请求：
+    function getData(){
+        var xhr=new XMLHttpRequest();
+        xhr.open("post","http://localhost:3000",true);
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4){
+                if(xhr.status==200){
+                     var re=JSON.parse(xhr.responseText);
+                    //console.log(re)
+                    var str=re.name+"您的编号是"+re.pwd;
+                    document.getElementById("result").innerHTML=str;
+                }
+            }
+        }
+        xhr.send(null);
+    }
+
+</script>
+<input type="button" value="获取数据" onclick="getData()"/>
+<div>你好,<span id="result"></span></div>
+</body>
+</html>

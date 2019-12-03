@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="stylesheets/reset.css"/>
+</head>
+<body>
+<div id="wrap">
+    <div class="container">
+        <div class="row" style="margin-top: 80px;">
+            <div class="col-md-offset-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>系统登录</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="server/login.php" method="post" class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="username" class="col-sm-3 control-label">用户名：</label>
+
+                                <div class="col-sm-9">
+                                    <input name="username" type="text" class="form-control" id="username"
+                                           placeholder="请输入你的用户名或学号">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">密码：</label>
+
+                                <div class="col-sm-9">
+                                    <input name="pswd" type="password" class="form-control" id="inputPassword3"
+                                           placeholder="请输入你的密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> 记住账号
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer panel-primary">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-3">
+                                <input id="submitBtn" value="登录" type="button" class="btn btn-primary btn-block"/>
+                            </div>
+                            <div class="col-md-3">
+                                <input id="resetBtn" value="清空" type="button" class="btn btn-default btn-block"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger hide <?php
+                if ( isset( $_SESSION[ " info
+                " ] ) && $_SESSION[ "info" ] == 'login error' ) {
+                echo "show";
+                // $_SESSION[ "info" ] = '';
+                }
+                ?>">登录失败，用户名或密码错误！
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="javascripts/jquery-1.8.0.js"></script>
+<script src="javascripts/bootstrap.min.js"></script>
+</body>
+</html>

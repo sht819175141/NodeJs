@@ -1,0 +1,5 @@
+12.14pm:jsonp[有data，type必须为post方式]
+
+ajax请求：
+datatype：json，浏览器通过network查看没有callback
+为jsonp有calllback

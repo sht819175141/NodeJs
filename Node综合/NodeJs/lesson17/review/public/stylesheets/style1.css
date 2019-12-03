@@ -1,0 +1,25 @@
+*{
+    margin:0 auto;
+    padding: 0;
+}
+h3{
+    text-align: center;
+}
+.form{
+    width:500px;
+    height: 80px;
+    background: #00B7FF;
+}
+.form div{
+    padding-top:5px;
+}
+.form label{
+    width: 20%;
+}
+.form input{
+    width: 80%;
+}
+#subBtn{
+    width: 40px;
+    margin-left:200px;
+}

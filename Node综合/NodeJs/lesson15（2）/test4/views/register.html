@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>注册页面</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="stylesheets/reset.css"/>
+</head>
+<body>
+<div class="container">
+    <%- include('include/header')-%>
+    <div class="container mt">
+        <form action="/register" method="post">
+            <div class="panel panel-default" style="margin-top: 80px">
+                <div class="panel-heading">
+                    <div class="btn-group">
+                        <span>返回</span>
+                        <span class="btn btn-primary active float-right">用户注册</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">姓名：</button>
+                                    </span>
+                                <input type="text" name="username" class="form-control" required/>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">手机：</button>
+                                    </span>
+                                <input type="text" name="cellphone" class="form-control" required/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer text-center">
+                    <input type="submit" value="提交" class="btn btn-default"/>
+                    <input type="reset" value="重置" class="btn btn-default"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <%- include('include/footer') -%>
+</div>
+</div>
+<script src="javascripts/jquery-1.8.0.js"></script>
+<script src="javascripts/bootstrap.min.js"></script>
+</body>
+</html>

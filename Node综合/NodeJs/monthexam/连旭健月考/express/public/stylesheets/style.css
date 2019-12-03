@@ -1,0 +1,28 @@
+*{
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+.wrap{
+    margin:30px;
+}
+h3{
+    color:red;
+}
+.btn{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width:150px;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    background:#00B7FF;
+    color:#fff;
+}
+p{
+    color:green;
+    font-weight: bold;
+}
+p b{
+    color:orangered;
+}

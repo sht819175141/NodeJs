@@ -1,0 +1,10 @@
+12.12:
+express2:
+1、代码进一步归整：
+    方法{
+        法一：让express实例化后的对象app去匹配
+        法二：抛出一个对象，express.Router();
+    }
+2、ejs:模板引擎
+    安装：npm install ejs -g
+3、中间件(middleware)：收到请求后和发送响应之前的这个阶段执行的一些函数。

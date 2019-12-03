@@ -1,0 +1,53 @@
+12.10:
+复习：
+1、怎么让一个express包安装后在全局使用：
+    1）安装：npm install express -g
+    2）配置环境：NODE_PATH及path的配置
+2、怎么捕获异常
+捕获异常{domain也叫域
+		异步异常：{
+                process的uncaughtException事件：捕获全局异常
+                domain对象的error事件：捕获子域异常{
+                    domain.run
+                    domain.bind
+                }
+		     }
+		同步异常：try{}catch(){}
+
+
+
+12.10
+13单元：express路由
+    创建路由的两种方法：
+        1）:app.router（12.9）：
+        app1.js{
+            app.get("/",index);
+            app.get("/user",user);
+            app.listen(8080,function(){
+                console.log("listen at port 8080");
+            })
+        }
+        ./routes/.js:抛出一个函数：module.exports=index;
+        2):express.Router：
+        app1.js{
+            app.use("/",index);
+            app.use("/user",user);
+            app.listen(8080,function(){
+                console.log("listen at port 8080");
+            })
+        }
+        ./routes/.js:{
+            载入：var router=express.Router();
+            router.get("/",function(req,res){
+                res.send();
+            })
+            抛出router：module.exports=router;
+        }
+
+
+
+
+周考二复习：
+    进程（创建及守护）
+    捕获异常
+    api：url、getuid、setgid、pid等

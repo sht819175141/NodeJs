@@ -1,0 +1,13 @@
+理解错误：
+2.直到引入mysql包成功为止：不是要系统自己给修复错误，这数据代码的错误，要自己手动修改
+能做出不断重启当前报错子文件即可，且只有一个子进程报错
+
+执行子进程：
+ 1）var runServer1=child_process.spawn("node",["httpServer.js"]);
+    var runServer2=child_process.spawn("node",["mysqlServer.js"]);
+    这种方式只报一次错误
+ 2）require("./httpServer");
+    require("./mysqlServer");
+       才会连续报错
+
+       法二：for循环；监听子进程的退出事件

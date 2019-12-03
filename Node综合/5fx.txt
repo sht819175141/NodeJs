@@ -1,0 +1,254 @@
+//理论
+
+查询数据库内容用什么方法？：
+
+  正确答案：B
+
+A  DELETE
+
+B  SELECT
+
+C  以上都不对
+
+D  INSERT
+
+如何创建一个数据库连接：
+
+  正确答案：B
+
+A  createServer
+
+B  createConnection
+
+C  createHttp
+
+D  createElement
+
+14、mysql是什么？：
+
+  正确答案：A
+
+A  数据库
+
+B  模版引擎
+
+C  node框架
+
+D  nodejs插件
+
+15、再处理用户post过来的数据时，如果获取？：
+
+  正确答案：C
+
+A  req.url
+
+B  req.json
+
+C  req.body
+
+D  以上都不对
+
+post和get描述正确的是？：
+						 
+
+正确答案：A ; D
+
+A 在数据传输比较大的时候应选用post
+
+B 在考虑安全性上应选择get
+
+C 以上都不对
+
+D 在考虑安全性上应选择post
+
+以下哪些属于网络请求方式？：
+						 
+
+正确答案：A ; B ; C ; D
+
+A delete
+
+B post
+
+C put
+
+D get
+
+前端发起jsonp跨域请求的时候url有个必需的参数是什么：
+
+  正确答案：D
+
+A  name=?
+
+B  type=?
+
+C  age=?
+
+D  callback＝？
+
+以下属于正确的jsonp数据的是？：
+
+  正确答案：B
+
+A  a(code:0,msg:’success’)
+
+B  a({code:0,msg:’success’})
+
+C  {code:0,msg:’success’}
+
+D  以上都不对
+
+会产生跨域的情况有哪些？：
+						 
+
+正确答案：B ; C ; D
+
+A 以上都不对
+
+B 不同端口
+
+C 不同协议
+
+D 不同域名
+
+jsonp属于post请求：：
+
+正确答案：错	
+
+√
+
+×
+
+
+//链接相关json数据
+dbjson:   {
+  	"host":"localhost",
+  	"user":"root",
+  	"password":"123",
+  	"port":3306,
+  	"database":"student"
+	}
+
+//创建连接mysql
+module.exports = function (mysql) {
+
+   	var conn = mysql.createConnection({
+       	 	host:dbjson.host,
+      		user:dbjson.user,
+        	password:dbjson.password,
+        	port:dbjson.port,
+        	database:dbjson.database
+    		});
+    	conn.connect();
+
+    	return conn
+
+};
+
+//连接查询数据
+const express = require("express");
+var router = express.Router();//创建模块化、可挂载的路由句柄
+const mysql = require("mysql");//引入mysql模块
+var conn = require("../config/db.js")(mysql);
+
+
+//get获取信息渲染页面
+router.get("/",function (req,res) {
+    conn.query("select * from student",[],function (err,result) {
+        res.render("sqlList",{
+            "stus":result
+        })
+    });
+});
+//渲染页面
+<ul>
+        <%stus.forEach(function ( v ) {%>
+        	<li><%=v.num%>&nbsp;<%=v.name%>&nbsp;<%=v.cj%></li>
+        <%})%>
+</ul>
+
+
+//post登录
+router.post("/loginPost",function (req,res,next) {
+    conn.query("select * from user where user=? and psw=?",[req.body.user,req.body.psw],function (err,result) {
+        if (result.length>0){
+           res.redirect("/index");
+        }else {
+           res.redirect("/login");
+        }
+    })
+});
+module.exports = router;
+
+
+
+//ajax请求后台 post方式
+
+router.post("/ulist",function(req,res){
+    var data = [
+        {name:"zsan1",age:20},
+        {name:"zsan2",age:21},
+        {name:"zsan3",age:22}
+    ];
+    res.json(data)
+})
+
+$.ajax({
+      url : "/ulist",
+      type : "post",
+      success : function (res) {
+          str = "";
+          res.forEach(function (v) {
+              str += "<p>"+v.name+"</p>"
+          })
+          $("body").append(str);
+     }
+})
+
+//jsonp
+//express给出jsonp数据
+
+ res.jsonp(data);
+
+//解析res.jsonp
+
+url : http://localhost:3000/loginPost?callback=jQuery3721937129873921_572943729487289&_=754932475023
+
+▲ = jQuery3721937129873921_572943729487289;
+
+res.send(▲({"name":"zs","age":20}))  ;
+
+//解析过程
+ var path = req.url.split('callback=')[1];
+ var npath = path.split('&_=')[0];
+ var jsonp = npath+"("+JSON.stringify(data)+")";
+ res.send(jsonp);
+
+
+//前端发送跨域请求
+$.ajax({
+     url : "http://localhost:3000/loginPost?callback=?",
+     type : "get",
+     data : {user:$("#user").val(),psw:$("#psw").val()},
+     dataType : "jsonp",
+     success : function (data) {   
+          if (data == 1){
+                var name = data[0].user;
+                $("body").html("您好"+name);
+          }else {
+                $("span").html("用户名或密码错误");
+          }
+     }
+})
+
+router.get("/loginPost",function (req,res,next) {   
+    conn.query("select * from user where user=? and psw=?",[req.query.user,req.query.psw],function (err,result) {
+        str = "";
+        if (result.length>0){
+            str = 1
+        }else {
+            str = 0
+        }
+        res.jsonp(str);
+    })
+});

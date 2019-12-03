@@ -1,0 +1,72 @@
+ajax:核心是XMLHttpRequset(),实现局部刷新的一门技术
+localhost=127.0.0.1
+nodejs自带web服务器
+打开一个html文件{
+    ws自带服务器：右键在浏览器中启动：http://localhost:63342/NodeJs/lesson7/index.html
+    本地文件系统：文件直接右键在浏览器中打开：F:\八维课件\第十个月Nodejs\NodeJs\lesson7\index.html}
+}
+
+第7单元：http（nodeJs一定要学会的）
+http：操作网络的内置对象
+一、启动服务：
+1、
+    nodeJs自带web服务器，通过createSever()创建一个http服务
+写法一：
+http.createSever(function(req,res){
+    console.log("aaa");//命令窗口显示的结果
+    res.writeHead(200,{"Content-Type":"text/html;charset:utf8"});
+    res.end("aaa");//页面显示的结果
+}).listen(8080,function(){//监听端口
+    console.log("listen port at 8080")//判断监听的端口是否是异步
+});
+写法二：
+var  server=http.createServer(function(req,res){
+    console.log("aaa");
+    res.writeHead(200,{"Content-Type":"text/html;charset:utf8"});
+    res.end("aaa");//页面显示的结果
+});
+server.listen(8080,function(){//监听端口
+    console.log("listen port at 8080")//判断监听的端口是否是异步
+})
+res:request;res:response
+二、http与https内置模块：
+2、https:使用证书加密，比http更安全[使用证书协议]
+   与http用法一样
+三、url与querystring内置模块：
+3、url：{
+    url.parse():将字符创格式的url转变为对象
+    url.format():将一个对象转化为字符串
+}
+4、querystring：{
+    querystring.stringify():
+    querystring.parse():
+    querystring.escape():
+    querystring.unescape():
+}
+
+
+总结：
+1、NodeJS本来的用途是编写高性能的Web浏览器，如何使用nodejs来实现一个web服务器：
+使用NodeJS内置的http模块来实现{
+    1）引入一个http内置模块/服务
+    2）用createServer方法创建一个外部服务器：返回一个回调函数 接收一个request请求 response响应参数{
+         response.writeHead（）：设置请求状态码、字符编码、 解析格式；(设置服务器响应的状态码)
+         response.end（）：响应结果
+         request.headers():请求头{host:表示域名}
+         request.on("data",fucntion(){}):监听写入、输出状态
+         request.on("end",fucntion(){}):监听结束
+
+
+         response.write("hello !");//在浏览器页面中输出
+         response.end("world!");//在浏览器页面中输出
+    }
+
+    3）启动：通过listen监听创建的实例
+
+}
+补充：
+response.end("字符串/buffer类型");
+或者字符串格式的json数据
+response.write("")+response.end("")=response.end("")
+console.log():在命令黑框输出
+response.end：在浏览器页面中输出

@@ -1,0 +1,21 @@
+1、生成（封装）一个package.json的方法：{
+    1）命令：npm init
+    2）手动创建:设置name（包名）及入口文件（main.js）
+}
+2、创建NODE-PATH变量{
+    1）直接在path后面添加node.exe路径
+    2）重新创建一个NODE_PATH
+}
+3、区分node_modules与modules的区别
+    node_modules:放第三方包[且放在这里面的模块是不用写.\的,会默认先从node_modules里面去寻找)
+    modules:放自己写的包
+4、内置模块：http、fs、path
+外置模块：eg：express、mysql、body-pareser
+5、使用淘宝 NPM 镜像
+  大家都知道国内直接使用 npm 的官方镜像是非常慢的，这里推荐使用淘宝 NPM 镜像。
+  淘宝 NPM 镜像是一个完整 npmjs.org 镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。
+  你可以使用淘宝定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm:
+
+  $ npm install -g cnpm --registry=https://registry.npm.taobao.org
+  这样就可以使用 cnpm 命令来安装模块了：
+  $ cnpm install [name]

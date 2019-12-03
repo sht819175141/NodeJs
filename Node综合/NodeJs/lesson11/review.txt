@@ -1,0 +1,56 @@
+1、退出程序：
+process没有end方法
+2、process.stdout不能监听数据流出时的data,
+但是可以在新创建的子进程里面监，eg:
+        child_process.spawn("node",["httpServer.js"])
+        .stdout.on("data",function(data){
+            console.log(data.toString());//listen port at 8090
+        })
+3、process.argv:当前进程的命令行参数数组。{
+    0:node.exe安装路径
+    1:当前执行的app.js所在的绝对路径
+    数组后面的项为传入的参数：比如 node app kk aa
+    输出的数组为：[
+     'E:\\八维\\八维软件\\Node\\nodejs\\node.exe',
+    'F:\\八维课件\\第十个月Nodejs\\NodeJs\\lesson9\\app',
+    'kk',
+    'aa'
+    ]
+    截取参数：slice(2)得到的为：['kk','aa']
+}
+4、process.cwd():表示当前文件的绝对路径
+__dirname:通过node执行的js文件所在的绝对路径
+两者输出结果相同，但是表示的意义不同。
+5、创建子进程方法{
+    手册上有4个：（子进程里面）
+    child_process.spawn();
+    child_process.exec();
+    child_process.execFile();
+    child_process.fork();
+
+    cluster.fork();（主进程里面）
+
+}
+6、foreach解决异步问题
+7、捕获异常
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+作业：
+1、守护紫禁城
+2、for循环嵌套异步方法
+//3、process的方法练习
+4、标准输入输出，监听输入状态，输入完成退出进程（emit）
+5、http模块：创建服务、url操作、querystring操作

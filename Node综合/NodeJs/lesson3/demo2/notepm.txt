@@ -1,0 +1,53 @@
+补充：
+1、入口文件：
+one.js:写路径时默认从index向上寻找，可以不写；但是如果要求入口文件名字是其他的，如main.js,则必须具体到书写....../main.js
+或者在package.json里面设置了“main”为main.js,则也可以只写到上一级
+2、一个完整的工程目录：
+demo{
+    module{
+        模块名{
+            lib{
+                抛出具体模块
+            }
+            one.js(入口文件，接收调用具体模块)
+            package.json(包管理文件){
+                必填项：
+                "name": "bao",（包名）
+                "main": "main.js"（入口文件，默认为index.js）
+            }
+            README.md(自述文件)
+        }
+    }
+    node_module
+    review.js【引入模块index,进一步管理代码】
+    app.cmd(用于暂停app.js：在文件夹里面双击app.cmd即可)
+    【@node 入口文件的绝对路径(不能写；)
+     @pause】
+}
+
+webstorm强大之处在于：修改完文件位置后，会自动修改文件路径
+
+
+
+
+
+1、webstorm：shift+F6：重命名
+命令窗口直接打开具体某一个路径：{
+    1）打开文件夹直接空白处右键+shift：选择打开命令窗口
+    2）打开命令窗口后：打开所在文件夹拖进黑窗口里面即可
+    [若从某个盘进入另一个盘，则先进入盘：，再cd 进入里面具体路径]
+}
+2、命令窗口：复制：右键选择标记+回车
+3、改变命令窗口的默认编码格式：
+chcp 命令:
+
+chcp 65001  就是换成UTF-8代码页，在命令行标题栏上点击右键，选择"属性"->"字体"，将字体修改为True Type字体"Lucida                       Console"，然后点击确定将属性应用到当前窗口
+
+      chcp 936 可以换回默认的GBK
+
+      chcp 437 是美国英语
+4、SVN：（Subversion：常见版本控制工具之一）
+添加：建一个新文件夹用于交作业
+先更新，建一个文件，添加东西，右击tortoiseSVN，add+，然后commit，注释
+删除：先更新，右击tortoiseSVN，delete，然后commit，注释（右键直接删除是本地删除，共享上还有）
+

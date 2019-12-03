@@ -1,0 +1,52 @@
+操作文件：
+fs：filesystem
+console.log(fs)可以得到他的各种API：{
+
+}
+eg：异步(默认)|同步(+Sync)
+1、判断存在状态：
+fs.exists(path, [callback])  callback 返回一个布尔值|
+fs.existsSync (path) 返回一个布尔值
+2、读写文件内容{
+    小文件{
+        读取：fs.readFile(path,[callback])|
+        书写：fs.writeFile(filename, data, [encoding], [callback])
+    }
+    大文件{
+        读取：fs.createReadStream(path, [options])
+        书写：fs.createReadStream(path, [options])
+        //最后通过一个管子，pipe()来将读取的数据导入需写入的流中：读取.pipe(书写)
+    }
+}
+
+注：同步、异步读取内容的区别：{
+    同步：影响下面的执行，自上而下
+    异步：不影响下面，一起开始执行，由加载的时间长短决定出现的顺序
+}eg：
+console.log("before");
+fs.readFile("etc/readme.txt"),function(err,data){
+    console.log(data)
+}
+console.log("after");
+正常的顺序来说按照代码顺序从上至下，before-data-after（即同步），但是异步执行，中间时间较前后长，故最后出来：
+before-after-data，
+
+
+3\webstorm报错：no such a file or directory:说明写的路径不对
+4、总结：
+
+Buffer：是一种数据格式；读取文件一般都是返回buffer格式。
+stream：stream是数据流；可以用来操作大型文件；基于事件机制工作的
+
+
+fs模块是操作文件的：且fs模块内的每个方法都有同步和异步的
+操作文件、文件夹{
+    拷贝：读+写（先读再写）
+}
+
+操作比较大的文件的api的方法：createReadStream()、pipe（）、createReadStream（）
+操作文件的方法：{
+    存在状态：exists()、
+    读写小文件： readFile()、writeFile()、
+    读写大文件：createReadStream()、pipe（）、createReadStream（）
+}

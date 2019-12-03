@@ -1,0 +1,68 @@
+一、退出进程{
+法一：事件发射器：
+    process.stdin.emit("end")
+    //监听输入状态的end事件:
+    process.stdin.on("end",function(){
+        console.log("stdin emit end")
+    })
+法二：process.exit():监听exit事件
+    process.exit();
+    process.on("exit",function(code){
+        console.log("process is exit "+code);
+    })
+}
+二、创建一个多进程
+1）//cluster.isMaster()：判断当前是否是主进程
+//cluster.isWorker()：判断当前是否是子进程
+
+ if(cluster.isMaster){//主进程
+        //在主进程里面创建一个子进程
+        cluster.fork();
+    }else{//子进程
+        //启动一个http网络服务
+        var runserver=child_process.spawn("node",["httpServer.js"]);
+        //监听--------
+        runserver.stdout.on("data",function(data){
+            console.log(data.toString());//listen port at 8090
+        })
+    }
+2）主进程与子进程互相通讯：
+
+主进程给子进程发送消息：
+        cluster.fork().send({name:"p-aguai"});
+        //主进程接收消息：
+        cluster.fork().on("message",function(data){
+            console.log(data);data为obj
+        })
+子进程接收：
+process.on("message",function(data){
+            console.log(data.name)//p-aguai
+            //子进程给主进程发送消息:
+            process.send({对象形式});
+        })
+
+
+三、捕获错误：
+直接抛出错误，会阻断下面的操作，用try catch来捕获错误，不会阻止下面的操作
+只能捕获同步：try{抛出错误}catch(err){捕获错误}
+异步：domain内置模块（了解）
+
+都能捕获：process.on("uncaughtException",function(err){
+         console.log(err);
+     })
+总结：
+==>直接抛出错误，会阻断下面的操作，用try catch来捕获错误,但是其只能捕获同步错误，异步的错误还是捕获不到
+最终还是会阻止下面的运行；所以
+
+做例子总结：try catch捕获同步错误，process.uncaughtException(),捕获异步错误
+
+四、守护子进程：当创建的紫禁城异常退出，重新建一个子进程
+
+第一次先创建一个子进程：cluster.fork();
+报错之后（eg：调用了一个不存在的函数):通过监听cluster的exit事件，用cluster.fork()再创建一个子进程实现重启
+
+重启之后，报错会一直持续下去（不重启：只报一次错）
+cluster.on('exit',function(){cluster.fork();}可以通过定义一个变量来限制重启次数
+五、降权
+process.getuid()
+process.getgid()
